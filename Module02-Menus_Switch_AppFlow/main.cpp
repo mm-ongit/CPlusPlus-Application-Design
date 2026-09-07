@@ -2,9 +2,9 @@
 #include <string>
 using namespace std;
 
-void addCustomer()
+void createCustomer()
 {
-    cout << "Add Customer selected." << endl;
+    cout << "Create Customer selected." << endl;
 }
 
 void viewCustomer()
@@ -22,17 +22,24 @@ void updateCustomer()
     cout << "Update Customer selected." << endl;
 }
 
+void deleteCustomer()
+{
+    cout << "Delete Customer selected" << endl;
+}
+
 int main()
 {
     int choice = 0;
 
-    while (choice != 4)
+    while (choice != 6)
     {
         cout << "\n ;) CHARM CRM <3" << endl;
         cout << "1. Create Customer Record" << endl;
         cout << "2. View Customer Record" << endl;
         cout << "3. Search Customer Records" << endl;
-        cout << "4. Exit" << endl;
+        cout << "4. Update Customer Record" << endl;
+        cout << "5. Delete Customer Record" << endl;
+        cout << "6. Exit" << endl;
         cout << "Choose an option: ";
         cin >> choice;
         cout << endl;
@@ -40,7 +47,7 @@ int main()
         switch (choice)
         {
         case 1:
-            addCustomer();
+            createCustomer();
             break;
         case 2:
             viewCustomer();
@@ -49,10 +56,16 @@ int main()
             searchCustomers();
             break;
         case 4:
+            updateCustomer();
+            break;
+        case 5:
+            deleteCustomer();
+            break;
+        case 6:
             cout << "Thanks for using CHARM!" << endl;
             break;
         default:
-            cout << "Invalid choice. Please select option 1 - 4." << endl;
+            cout << "Invalid choice. Please select option 1 - 6." << endl;
         }
     }
 
