@@ -25,6 +25,7 @@ int main()
     std::string line;
 
     // Initialize a counter to iterate dataset
+    // std::size_t creates object of unsigned int type, can hold very large positive number
     std::size_t count = 0;
 
     // Create a vector specifically for storing data of first row of penguin records
