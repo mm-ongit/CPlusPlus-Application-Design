@@ -60,7 +60,7 @@ int main()
 
         // 5. Print every cell in this row
         // & allows direct reference to value, no copying of data occurs, const promises read-only access
-        for (const auto &val : row)
+        for (const std::string &val : row)
         {
             std::cout << val << " | ";
         }
