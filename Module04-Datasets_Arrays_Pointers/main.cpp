@@ -25,7 +25,7 @@ int main()
     std::string line;
 
     // Initialize a counter to iterate dataset
-    // std::size_t creates object of unsigned int type, can represent size/non-negative index of any object, always positive
+    // std::size_t is unsignned int type, can represent size/non-negative index of any object, always 0 or greater
     // Choose over int to avoid comparison of signed and unsigned values when iterating
     std::size_t count = 0;
 
@@ -44,7 +44,7 @@ int main()
         }
 
         // Create a string stream object to hold data in each line
-        // Note: getline() can only act on stream objects, so string line must be converted to stream with ss()
+        // Note: getline() can only act on stream objects, so stream objct containing contents of string line is created with ss()
         std::stringstream ss(line);
         // Create a variable called cell to hold individual data points
         std::string cell;
@@ -77,7 +77,7 @@ int main()
     }
 
     // 6. Create pointer and print value to the screen
-    // If makees sure the 7th element in list exists before creating pointer
+    // If ensures at least 7 elements exist in vector before creating pointer to 7th element
     if (firstPenguinData.size() > 6)
     {
         std::string *bodyMassPointer = &firstPenguinData[6];
@@ -87,6 +87,7 @@ int main()
     }
 
     // 7. Close the file stream
+    // Note: file stream object will automatically be destroyed when main() ends but good to be explicit
     file.close();
     return 0;
 }
