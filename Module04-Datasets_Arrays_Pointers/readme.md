@@ -29,4 +29,23 @@ After downloading .csv located at the link above and placing in the root for thi
     the data for the first penguin in the source data.
     And I print the value located at this pointer to the terminal.
 
+Succesful output from the program is as follows:
+
+
+File opened successfully!
+
+ |  | "Adelie" | "Torgersen" | 39.1 | 18.7 | 181 | 3750 | "male" | 2007
+ |  | "Adelie" | "Torgersen" | 39.5 | 17.4 | 186 | 3800 | "female" | 2007
+ |  | "Adelie" | "Torgersen" | 40.3 | 18 | 195 | 3250 | "female" | 2007
+ |  | "Adelie" | "Torgersen" | NA | NA | NA | NA | NA | 2007
+ |  | "Adelie" | "Torgersen" | 36.7 | 19.3 | 193 | 3450 | "female" | 2007
+ |  | "Adelie" | "Torgersen" | 39.3 | 20.6 | 190 | 3650 | "male" | 2007
+ |  | "Adelie" | "Torgersen" | 38.9 | 17.8 | 181 | 3625 | "female" | 2007
+ |  | "Adelie" | "Torgersen" | 39.2 | 19.6 | 195 | 4675 | "male" | 2007
+ |  | "Adelie" | "Torgersen" | 34.1 | 18.1 | 193 | 3475 | NA | 2007
+ | " | "Adelie" | "Torgersen" | 42 | 20.2 | 190 | 4250 | NA | 2007
+
+Body mass of first penguin via pointer: 3750g.
+
+
 Now that I have a method for reading data from file I have the basis for data persistence for my CRM project. I will adapt the code I wrote for this week's module accordingly.
