@@ -6,7 +6,7 @@
 
 int main()
 {
-    // 1. Open the CSV file - creates a ifstream object in read mode called file
+    // 1. Open the CSV file - creates an input-file-stream object to read in .csv
     std::ifstream file("penguins.csv");
 
     // 2. Check if the file opened successfully - error message if fail
@@ -25,14 +25,16 @@ int main()
     std::string line;
 
     // Initialize a counter to iterate dataset
-    // std::size_t creates object of unsigned int type, can hold very large positive number
+    // std::size_t creates object of unsigned int type, can represent size/non-negative index of any object, always positive
+    // Choose over int to avoid comparison of signed and unsigned values when iterating
     std::size_t count = 0;
 
     // Create a vector specifically for storing data of first row of penguin records
     std::vector<std::string> firstPenguinData;
 
-    // 3. Read the file line by line - limited to first 10 records
-    while (std::getline(file, line) && count < 10)
+    // 3. Read the file line by line - limited to first 10 records (skipping headers)
+    // Note: Whe getline() succeeds it evaluates to true, can be used as boolean flag in loop
+    while (std::getline(file, line) && count < 11)
     {
         // Skip header row in csv
         if (count == 0)
@@ -42,6 +44,7 @@ int main()
         }
 
         // Create a string stream object to hold data in each line
+        // Note: getline() can only act on stream objects, so string line must be converted to stream with ss()
         std::stringstream ss(line);
         // Create a variable called cell to hold individual data points
         std::string cell;
@@ -56,6 +59,7 @@ int main()
         }
 
         // 5. Print every cell in this row
+        // & allows direct reference to value, no copying of data occurs, const promises read-only access
         for (const auto &val : row)
         {
             std::cout << val << " | ";
@@ -73,13 +77,13 @@ int main()
     }
 
     // 6. Create pointer and print value to the screen
+    // If makees sure the 7th element in list exists before creating pointer
     if (firstPenguinData.size() > 6)
     {
         std::string *bodyMassPointer = &firstPenguinData[6];
 
         std::cout << "\n"
-                  << "Body mass of first penguin via pointer: " << *bodyMassPointer << "g."
-                                                                                       "\n";
+                  << "Body mass of first penguin via pointer: " << *bodyMassPointer << "g." << "\n";
     }
 
     // 7. Close the file stream
