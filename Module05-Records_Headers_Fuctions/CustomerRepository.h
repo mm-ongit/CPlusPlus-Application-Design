@@ -13,6 +13,7 @@ private:
 public:
     // Class Constructor
     void addCustomer(
+        int initCustomerID,
         const std::string &initFirstName,
         const std::string &initLastName,
         const std::string &initOrganization,

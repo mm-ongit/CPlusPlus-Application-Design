@@ -30,6 +30,7 @@ private:
 public:
     // Class Constructor
     Customer(
+        int initCustomerID,
         const std::string &initFirstName,
         const std::string &initLastName,
         const std::string &initOrganization,
@@ -42,7 +43,7 @@ public:
         bool initIsActive);
 
     // Getters
-    int getId() const
+    int getID() const
     {
         return customer_id;
     }

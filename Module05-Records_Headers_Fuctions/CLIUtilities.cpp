@@ -3,6 +3,7 @@
 
 void cliUtilities::createCustomerFromInput(CustomerRepository &repository)
 {
+    int initCustomerID;
     std::string initFirstName;
     std::string initLastName;
     std::string initOrganization;
@@ -42,6 +43,7 @@ void cliUtilities::createCustomerFromInput(CustomerRepository &repository)
     std::getline(std::cin, initRepresentative);
 
     repository.addCustomer(
+        initCustomerID,
         initFirstName,
         initLastName,
         initOrganization,
@@ -60,12 +62,13 @@ void cliUtilities::displayCustomers(CustomerRepository &repository)
     {
         // Add customer ID when I figure out how to auto-generate unique ID #s
         std::cout << std::endl;
-        std::cout << customer.getName() << "\n";
-        std::cout << customer.getEmail() << "\n";
-        std::cout << customer.getOrganization() << "\n";
-        std::cout << customer.getLocation() << "\n";
-        std::cout << customer.getRepresentative() << "\n";
-        std::cout << customer.getIsActive() << "\n";
+        std::cout << "Customer ID: " << customer.getID() << "\n";
+        std::cout << "Customer Name: " << customer.getName() << "\n";
+        std::cout << "Customer Email: " << customer.getEmail() << "\n";
+        std::cout << "Customer Organization: " << customer.getOrganization() << "\n";
+        std::cout << "Customer Location: " << customer.getLocation() << "\n";
+        std::cout << "Customer Representative: " << customer.getRepresentative() << "\n";
+        std::cout << "Is Active Customer: " << customer.getIsActive() << "\n";
         // Add LCV when I figure out how to calculate LCV
     }
 };

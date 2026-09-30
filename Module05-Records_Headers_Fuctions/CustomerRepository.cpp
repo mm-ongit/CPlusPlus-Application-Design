@@ -3,6 +3,7 @@
 
 // Class Constructor
 void CustomerRepository::addCustomer(
+    int initCustomerID,
     const std::string &initFirstName,
     const std::string &initLastName,
     const std::string &initOrganization,
@@ -15,6 +16,7 @@ void CustomerRepository::addCustomer(
     bool initIsActive)
 {
     Customer newCustomer(
+        next_customer_id,
         initFirstName,
         initLastName,
         initOrganization,
@@ -27,6 +29,7 @@ void CustomerRepository::addCustomer(
         initIsActive);
 
     customers.push_back(newCustomer);
+    next_customer_id += 1;
 };
 
 // Getters

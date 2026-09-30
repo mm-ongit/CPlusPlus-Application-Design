@@ -2,6 +2,7 @@
 
 // Implement Constructor method
 Customer::Customer(
+    int initCustomerID,
     const std::string &initFirstName,
     const std::string &initLastName,
     const std::string &initOrganization,
@@ -11,7 +12,7 @@ Customer::Customer(
     const std::string &initState,
     const std::string &initAddress,
     const std::string &initRepresentative,
-    bool initIsActive) : customer_id(0),
+    bool initIsActive) : customer_id(initCustomerID),
                          first(initFirstName),
                          last(initLastName),
                          organization(initOrganization),
