@@ -25,8 +25,9 @@ Each .h file has at least one function implmented in a complementary .cpp file.
 
 5) Results:
 Many errors later it works!
+(I need to move the menu logic into CLIUtilities) 
 
-The menu offers the following options:
+The application menu offers the following options:
 1. Create Customer Record
 2. View Customer Records
 3. Create New Transaction
