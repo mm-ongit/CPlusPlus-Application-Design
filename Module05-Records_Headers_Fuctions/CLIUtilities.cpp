@@ -100,7 +100,6 @@ void cliUtilities::displayCustomers(CustomerRepository &repository)
 {
     for (const Customer &customer : repository.getCustomers())
     {
-        // Add customer ID when I figure out how to auto-generate unique ID #s
         std::cout << std::endl;
         std::cout << "Customer ID: " << customer.getID() << "\n";
         std::cout << "Customer Name: " << customer.getName() << "\n";
