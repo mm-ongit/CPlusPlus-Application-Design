@@ -11,7 +11,6 @@ private:
     int next_customer_id = 1;
 
 public:
-    // Class Constructor
     void addCustomer(
         int initCustomerID,
         const std::string &initFirstName,
@@ -29,22 +28,21 @@ public:
     const std::vector<Customer> &getCustomers() const;
 
     // Setters
-    void updateCustomer();
-
-    void removeCustomer();
+    // void updateCustomer();
+    // void removeCustomer();
 
     // Searchers
-    void findCustomerById();
+    Customer *findCustomerByID(int target);
 
-    void findCustomerByName();
+    // Customer* findCustomerByName(std::string target);
 
-    void findCustomerByOrganization();
+    // Customer* findCustomerByOrganization(std::string target);
 
-    void findCustomerByRole();
+    // Customer* findCustomerByRole(std::string target);
 
-    void findCustomerByEmail();
+    // Customer* findCustomerByEmail(std::string target);
 
-    void findCustomerByCity();
+    // Customer* findCustomerByCity(std::string target);
 
-    void findCustomerByState();
+    // Customer* findCustomerByState(std::string target);
 };

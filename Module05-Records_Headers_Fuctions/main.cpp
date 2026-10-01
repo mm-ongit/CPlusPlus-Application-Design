@@ -8,12 +8,13 @@ int main()
     cliUtilities cli;
     int choice = 0;
 
-    while (choice != 3)
+    while (choice != 4)
     {
         std::cout << "\n ;) CHARM CRM <3" << std::endl;
         std::cout << "1. Create Customer Record" << std::endl;
         std::cout << "2. View Customer Records" << std::endl;
-        std::cout << "3. Exit" << std::endl;
+        std::cout << "3. Create New Transaction" << std::endl;
+        std::cout << "4. Exit" << std::endl;
         std::cout << "Choose an option: ";
         std::cin >> choice;
         std::cin.ignore();
@@ -27,6 +28,9 @@ int main()
             cli.displayCustomers(repository);
             break;
         case 3:
+            cli.initiateTransactionFromInput(repository);
+            break;
+        case 4:
             std::cout << "Thanks for using CHARM!" << std::endl;
             break;
         default:

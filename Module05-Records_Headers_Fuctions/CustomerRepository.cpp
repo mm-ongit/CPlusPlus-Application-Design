@@ -1,7 +1,6 @@
 #include "CustomerRepository.h"
 #include "Customer.h"
 
-// Class Constructor
 void CustomerRepository::addCustomer(
     int initCustomerID,
     const std::string &initFirstName,
@@ -44,7 +43,21 @@ const std::vector<Customer> &CustomerRepository::getCustomers() const
 // void CustomerRepository::removeCustomer() {};
 
 // Searchers
-// void CustomerRepository::findCustomerById() {};
+
+// Linear Search - O(n), Used because IDs may not always be sequential
+// Fine for now but replace with hash map later???
+Customer *CustomerRepository::findCustomerByID(int target)
+{
+    for (Customer &customer : customers)
+    {
+        if (customer.getID() == target)
+        {
+            return &customer;
+        }
+    }
+
+    return nullptr;
+}
 
 // void CustomerRepository::findCustomerByName() {};
 

@@ -2,9 +2,9 @@
 #pragma once
 
 #include <string>
-// #include <vector>
+#include <vector>
+#include "Transaction.h"
 // #include "Interaction.h"
-// #include "Transaction.h"
 
 class Customer
 {
@@ -21,11 +21,10 @@ private:
     std::string address;
     std::string representative;
     bool is_active;
-    double lifetime_customer_value;
 
     // Lists of interactions and transactions with each customer
+    std::vector<Transaction> transactions;
     // std::vector<Interaction> interactions;
-    // std::vector<Transaction> transactions;
 
 public:
     // Class Constructor
@@ -75,10 +74,8 @@ public:
     {
         return is_active;
     }
-    // double getLifetimeCustomerValue() const
-    //{
-    //  return calculateLifetimeCustomerValue()
-    //}
+
+    double calculateLifetimeCustomerValue() const;
 
     // void viewInteractions()
     // void viewTransactions()
@@ -119,6 +116,7 @@ public:
     {
         is_active = true;
     }
-    // void addInteraction(const Interaction &_interaction);
-    // void addTransaction(const Transaction &_transaction);
+
+    void addTransaction(const Transaction &transaction);
+    // void addInteraction(const Interaction &interaction);
 };

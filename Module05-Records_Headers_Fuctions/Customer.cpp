@@ -22,8 +22,26 @@ Customer::Customer(
                          state(initState),
                          address(initAddress),
                          representative(initRepresentative),
-                         is_active(initIsActive),
-                         lifetime_customer_value(0.0) {}
+                         is_active(initIsActive) {}
+
+// Derive LCV
+double Customer::calculateLifetimeCustomerValue() const
+{
+    double total = 0.0;
+
+    for (const Transaction &transaction : transactions)
+    {
+        total += transaction.getAmount();
+    }
+
+    return total;
+}
+
+// Create New Transaction and add to list of transactions
+void Customer::addTransaction(const Transaction &transaction)
+{
+    transactions.push_back(transaction);
+}
 
 // To be declared and implemented after Interaction class is written/implemented
 // void Customer::addInteraction(const Interaction &_interaction);

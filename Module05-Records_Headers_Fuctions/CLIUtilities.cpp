@@ -1,4 +1,5 @@
 #include "CLIUtilities.h"
+#include "Transaction.h"
 #include <sstream>
 
 void cliUtilities::createCustomerFromInput(CustomerRepository &repository)
@@ -56,6 +57,45 @@ void cliUtilities::createCustomerFromInput(CustomerRepository &repository)
         initIsActive);
 };
 
+// Gets relevant Customer object needed to run void cliUtilities::createTransactionFromInput(Customer &customer)
+void cliUtilities::initiateTransactionFromInput(CustomerRepository &repository)
+{
+    int target;
+
+    std::cout << "Enter customer ID: ";
+    std::cin >> target;
+
+    Customer *customer = repository.findCustomerByID(target);
+
+    if (customer == nullptr)
+    {
+        std::cout << "Customer not found.\n";
+        return;
+    }
+
+    createTransactionFromInput(*customer);
+}
+
+void cliUtilities::createTransactionFromInput(Customer &customer)
+{
+    double initAmount;
+    std::string initType;
+
+    std::cout << "Enter transaction amount: $";
+    std::cin >> initAmount;
+
+    std::cout << "Enter transaction type: ";
+    std::getline(std::cin >> std::ws, initType);
+
+    Transaction newTransaction(
+        initAmount,
+        initType);
+
+    customer.addTransaction(newTransaction);
+
+    return;
+}
+
 void cliUtilities::displayCustomers(CustomerRepository &repository)
 {
     for (const Customer &customer : repository.getCustomers())
@@ -64,11 +104,11 @@ void cliUtilities::displayCustomers(CustomerRepository &repository)
         std::cout << std::endl;
         std::cout << "Customer ID: " << customer.getID() << "\n";
         std::cout << "Customer Name: " << customer.getName() << "\n";
-        std::cout << "Customer Email: " << customer.getEmail() << "\n";
         std::cout << "Customer Organization: " << customer.getOrganization() << "\n";
+        std::cout << "Customer Email: " << customer.getEmail() << "\n";
         std::cout << "Customer Location: " << customer.getLocation() << "\n";
         std::cout << "Customer Representative: " << customer.getRepresentative() << "\n";
         std::cout << "Is Active Customer: " << customer.getIsActive() << "\n";
-        // Add LCV when I figure out how to calculate LCV
+        std::cout << "Liftime Customer Value: $" << customer.calculateLifetimeCustomerValue() << "\n";
     }
 };
