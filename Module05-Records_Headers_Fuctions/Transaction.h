@@ -5,14 +5,17 @@
 class Transaction
 {
 private:
-    double amount;
     std::string type;
+    std::string date;
+    double amount;
 
 public:
     Transaction(
-        const double initAmount,
-        const std::string &initType);
+        const std::string &initType,
+        const std::string &initDate,
+        const double initAmount);
 
+    // Getters
     double getAmount() const
     {
         return amount;
@@ -21,5 +24,26 @@ public:
     std::string getType() const
     {
         return type;
+    }
+
+    std::string getDate() const
+    {
+        return date;
+    }
+
+    // Setters
+    void updateAmount(double newAmount)
+    {
+        amount = newAmount;
+    }
+
+    void updateType(std::string newType)
+    {
+        type = newType;
+    }
+
+    void updateDate(std::string newDate)
+    {
+        date = newDate;
     }
 };

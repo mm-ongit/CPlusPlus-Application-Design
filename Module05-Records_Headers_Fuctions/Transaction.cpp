@@ -1,6 +1,6 @@
 #include "Transaction.h"
 
 Transaction::Transaction(
-    const double initAmount,
-    const std::string &initType) : amount(initAmount),
-                                   type(initType) {}
+    const std::string &initType,
+    const std::string &initDate,
+    const double initAmount) : type(initType), date(initDate), amount(initAmount) {}

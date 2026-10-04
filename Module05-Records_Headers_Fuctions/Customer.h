@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include "Transaction.h"
-// #include "Interaction.h"
+#include "Interaction.h"
 
 class Customer
 {
@@ -24,7 +24,7 @@ private:
 
     // Lists of interactions and transactions with each customer
     std::vector<Transaction> transactions;
-    // std::vector<Interaction> interactions;
+    std::vector<Interaction> interactions;
 
 public:
     // Class Constructor
@@ -75,11 +75,6 @@ public:
         return is_active;
     }
 
-    double calculateLifetimeCustomerValue() const;
-
-    // void viewInteractions()
-    // void viewTransactions()
-
     // Setters
     void updateName(const std::string &newFirst, const std::string &newLast)
     {
@@ -117,6 +112,12 @@ public:
         is_active = true;
     }
 
+    // Methods
+    double calculateLifetimeCustomerValue() const;
+
     void addTransaction(const Transaction &transaction);
-    // void addInteraction(const Interaction &interaction);
+    void addInteraction(const Interaction &interaction);
+
+    // void viewInteractions()
+    // void viewTransactions()
 };

@@ -43,6 +43,8 @@ void Customer::addTransaction(const Transaction &transaction)
     transactions.push_back(transaction);
 }
 
-// To be declared and implemented after Interaction class is written/implemented
-// void Customer::addInteraction(const Interaction &_interaction);
+void Customer::addInteraction(const Interaction &interaction)
+{
+    interactions.push_back(interaction);
+}
 // void Customr::viewInteraction() const;
