@@ -78,18 +78,23 @@ void cliUtilities::initiateTransactionFromInput(CustomerRepository &repository)
 
 void cliUtilities::createTransactionFromInput(Customer &customer)
 {
-    double initAmount;
     std::string initType;
-
-    std::cout << "Enter transaction amount: $";
-    std::cin >> initAmount;
+    std::string initDate;
+    double initAmount;
 
     std::cout << "Enter transaction type: ";
     std::getline(std::cin >> std::ws, initType);
 
+    std::cout << "Enter transaction date: ";
+    std::getline(std::cin >> std::ws, initDate);
+
+    std::cout << "Enter transaction amount: $";
+    std::cin >> initAmount;
+
     Transaction newTransaction(
-        initAmount,
-        initType);
+        initType,
+        initDate,
+        initAmount);
 
     customer.addTransaction(newTransaction);
 
