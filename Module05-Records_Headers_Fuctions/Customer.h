@@ -118,6 +118,6 @@ public:
     void addTransaction(const Transaction &transaction);
     void addInteraction(const Interaction &interaction);
 
-    // void viewInteractions()
     // void viewTransactions()
+    // void viewInteractions()
 };

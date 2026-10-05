@@ -37,14 +37,17 @@ double Customer::calculateLifetimeCustomerValue() const
     return total;
 }
 
-// Create New Transaction and add to list of transactions
+// Add new Transaction to list of transactions
 void Customer::addTransaction(const Transaction &transaction)
 {
     transactions.push_back(transaction);
 }
 
+// Add new Interaction to list of interactions
 void Customer::addInteraction(const Interaction &interaction)
 {
     interactions.push_back(interaction);
 }
-// void Customr::viewInteraction() const;
+
+// void Customer::viewTransactions() const;
+// void Customer::viewInteractions() const;

@@ -100,6 +100,49 @@ void cliUtilities::createTransactionFromInput(Customer &customer)
 
     return;
 }
+// Gets relevant Customer object needed to run void cliUtilities::createInteractionFromInput(Customer &customer)
+void cliUtilities::initiateInteractionFromInput(CustomerRepository &repository)
+{
+    int target;
+
+    std::cout << "Enter customer ID: ";
+    std::cin >> target;
+
+    Customer *customer = repository.findCustomerByID(target);
+
+    if (customer == nullptr)
+    {
+        std::cout << "Customer not found.\n";
+        return;
+    }
+
+    createInteractionFromInput(*customer);
+}
+
+void cliUtilities::createInteractionFromInput(Customer &customer)
+{
+    std::string initType;
+    std::string initDate;
+    std::string initNotes;
+
+    std::cout << "Enter interaction type: ";
+    std::getline(std::cin >> std::ws, initType);
+
+    std::cout << "Enter interaction date: ";
+    std::getline(std::cin >> std::ws, initDate);
+
+    std::cout << "Enter interaction notes: ";
+    std::cin >> initNotes;
+
+    Interaction newInteraction(
+        initType,
+        initDate,
+        initNotes);
+
+    customer.addInteraction(newInteraction);
+
+    return;
+}
 
 void cliUtilities::displayCustomers(CustomerRepository &repository)
 {
