@@ -103,6 +103,8 @@ public:
     {
         representative = newRepresentative;
     }
+
+    // Methods
     void deactivate()
     {
         is_active = false;
@@ -111,8 +113,6 @@ public:
     {
         is_active = true;
     }
-
-    // Methods
     double calculateLifetimeCustomerValue() const;
 
     void addTransaction(const Transaction &transaction);

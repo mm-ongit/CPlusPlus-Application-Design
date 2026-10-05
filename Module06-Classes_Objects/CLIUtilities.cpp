@@ -132,7 +132,8 @@ void cliUtilities::createInteractionFromInput(Customer &customer)
     std::getline(std::cin >> std::ws, initDate);
 
     std::cout << "Enter interaction notes: ";
-    std::cin >> initNotes;
+std:
+    getline(std::cin >> std::ws, initNotes);
 
     Interaction newInteraction(
         initType,
