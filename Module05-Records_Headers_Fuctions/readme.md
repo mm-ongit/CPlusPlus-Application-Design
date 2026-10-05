@@ -35,15 +35,15 @@ The application menu offers the following options:
 
 First, I choose option 1 twice and create 2 customers with the following data:
 
-(Becky, Bright, BrightCo., becky@brightco.com, 2223334444, Cooltown, CA, 222 Cool st., malik@charmcrm.com)
+(Becky, Bright, BrightCo., becky@brightco.com, 2223334444, Cooltown, CA, 222 Cool st., malik@charmcrm.com);
 (Andy, Allen, AllenCo., allen@allenco.com, 4445556666, Hottown, CA, 345 Heat st., malik@charmcrm.com)
 
 Then I choose option 3 twice, specifying the Customer with the ID# 1 and creating new transactions:
-(450, Consulting Fee)
+(450, Consulting Fee);
 (700, Consulting Fee)
 
 I do the same for the second Customer:
-(18000, Contract)
+(18000, Contract);
 (2400, Consulting Fee)
 
 Now I can choose option 2 from the menu and display all of the data I have on each Customer, providing the following output:
