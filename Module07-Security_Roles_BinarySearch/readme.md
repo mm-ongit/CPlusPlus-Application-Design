@@ -3,7 +3,7 @@ Week 7 Assignment:
 "Create Admin and Regular User roles. Restrict actions based on the user's role. Store records in sorted order and implement a binary search to find a record by ID or another unique field."
 
 -------------------------------
-1. Create Admin and Regular User roles:
+1. Create Admin and Standard User roles:
 - Write User.h & Write User.cpp -
 Since there is no behavioral difference between regular users and admin users I have decided not to implement two separate classes or a parent and derivative class. User objects have a UserRole attribute which can be defined as 1 or 2 options, UserRole::Standard UserRole::Admin. UserRole's value is checked by the CLI Utility, which determines which menu options are shown to which users. Creation/deletion/update of User objects will be handled by the UserRepository class.
 
