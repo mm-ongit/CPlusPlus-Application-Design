@@ -36,13 +36,5 @@ public:
 
     // Customer* findCustomerByName(std::string target);
 
-    // Customer* findCustomerByOrganization(std::string target);
-
-    // Customer* findCustomerByRole(std::string target);
-
     // Customer* findCustomerByEmail(std::string target);
-
-    // Customer* findCustomerByCity(std::string target);
-
-    // Customer* findCustomerByState(std::string target);
 };

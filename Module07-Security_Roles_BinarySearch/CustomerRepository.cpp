@@ -43,16 +43,26 @@ const std::vector<Customer> &CustomerRepository::getCustomers() const
 // void CustomerRepository::removeCustomer() {};
 
 // Searchers
-
-// Linear Search - O(n), Used because IDs may not always be sequential
-// Fine for now but replace with hash map later???
 Customer *CustomerRepository::findCustomerByID(int target)
 {
-    for (Customer &customer : customers)
+    // Binary Search
+    int low = 0;
+    int high = static_cast<int>(customers.size()) - 1;
+
+    while (low <= high)
     {
-        if (customer.getID() == target)
+        int middle = (low + high) / 2;
+        if (customers[middle].getID() == target)
         {
-            return &customer;
+            return &customers[middle];
+        }
+        else if (customers[middle].getID() < target)
+        {
+            low = middle + 1;
+        }
+        else
+        {
+            high = middle - 1;
         }
     }
 
