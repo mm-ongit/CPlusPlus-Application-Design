@@ -18,9 +18,6 @@ void cliUtilities::start()
 
 void cliUtilities::displayInitializationMenu(CustomerRepository &cRep, UserRepository &uRep)
 {
-    /* cliUtilities cli;
-    CustomerRepository cRep;
-    UserRepository uRep; */
     int choice;
 
     std::cout << "\n ;) CHARM CRM - Initialization (1/2) <3" << std::endl;
@@ -104,7 +101,7 @@ int cliUtilities::displayLogInMenu(CustomerRepository &cRep, UserRepository &uRe
         }
 
         // You should insert a password hash check here
-        if (user->getPasswordHash() == password) // change password to check_hash(password)
+        if (user->getPasswordHash() == password) // change password to check_hash(password) etc.
         {
             if (user->getAdminStatus() == UserRole::Admin)
             {
