@@ -36,6 +36,13 @@ public:
     // Setter
     void updateInitializeProgramFlag()
     {
-        initializeProgramFlag = false;
+        if (getInitializeProgramFlag())
+        {
+            initializeProgramFlag = false;
+        }
+        else
+        {
+            initializeProgramFlag = true;
+        }
     }
 };
