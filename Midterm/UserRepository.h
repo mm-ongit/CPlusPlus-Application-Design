@@ -31,4 +31,8 @@ public:
     User *findUserByEmail(std::string &email);
 
     // User *findUserByName(std::string target)
+
+    // Functions
+    int saveUsersToFile(const std::string &usersSaveFileName) const;
+    int loadUserDataFromFile(const std::string &usersSaveFileName);
 };

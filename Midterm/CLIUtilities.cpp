@@ -2,18 +2,29 @@
 #include "Transaction.h"
 #include "Interaction.h"
 #include <sstream>
+#include <cstdlib>
 
 void cliUtilities::start()
 {
     CustomerRepository cRep;
     UserRepository uRep;
 
-    if (getInitializeProgramFlag())
+    if (initiateLoadUserDataFromFile(uRep, usersSaveFileName) == 0)
     {
-        displayInitializationMenu(cRep, uRep);
+        displayLogInMenu(cRep, uRep);
     }
-
-    displayLogInMenu(cRep, uRep);
+    else
+    {
+        if (getInitializeProgramFlag())
+        {
+            displayInitializationMenu(cRep, uRep);
+        }
+        else
+        {
+            std::cerr << "Error: Loading Users Unsuccessful" << std::endl;
+            std::exit(EXIT_FAILURE);
+        }
+    }
 }
 
 void cliUtilities::displayInitializationMenu(CustomerRepository &cRep, UserRepository &uRep)
@@ -72,14 +83,21 @@ int cliUtilities::displayLogInMenu(CustomerRepository &cRep, UserRepository &uRe
         std::cout << "\n ;) CHARM CRM - Login (1/3) <3" << std::endl;
         std::cout << "Enter 1 To Log In " << std::endl;
         std::cout << "Enter 2 To Exit " << std::endl;
-        std::cout << "Choose Option:  ";
+        std::cout << "Choose Option: ";
         std::cin >> log_in_flag;
         std::cin.ignore();
+
+        if (log_in_flag != "1" && log_in_flag != "2")
+        {
+            std::cout << std::endl;
+            std::cout << "Please Enter 1 Or 2" << std::endl;
+            displayLogInMenu(cRep, uRep);
+        }
 
         if (log_in_flag == "2")
         {
             std::cout << "Thanks for using CHARM!" << std::endl;
-            return 0;
+            break;
         }
 
         std::cout << "\n ;) CHARM CRM - Login (2/3) <3" << std::endl;
@@ -180,7 +198,7 @@ int cliUtilities::displayAdminMenu(CustomerRepository &cRep, UserRepository &uRe
         std::cout << "6. Find User By ID" << std::endl;
         std::cout << "7. Create New Transaction" << std::endl;
         std::cout << "8. Create New Interaction" << std::endl;
-        std::cout << "9. Log Out" << std::endl;
+        std::cout << "9. Save And Log Out" << std::endl;
         std::cout << "Choose an option: ";
         std::cin >> choice;
         std::cin.ignore();
@@ -212,6 +230,7 @@ int cliUtilities::displayAdminMenu(CustomerRepository &cRep, UserRepository &uRe
             initiateInteractionFromInput(cRep);
             break;
         case 9:
+            initiateSaveUsersToFile(uRep, usersSaveFileName);
             std::cout << "Thanks for using CHARM!" << std::endl;
             return 0;
         default:
@@ -386,7 +405,7 @@ void cliUtilities::findUserByID(UserRepository &uRep)
     {
         std::cout << std::endl;
         std::cout << "User ID: " << user->getID() << '\n';
-        std::cout << "Name: " << user->getName() << '\n';
+        std::cout << "Name: " << user->getFirstName() << " " << user->getLastName() << '\n';
         std::cout << "Email: " << user->getEmail() << '\n';
         std::cout << "Department: " << user->getDepartment() << '\n';
     }
@@ -507,8 +526,49 @@ void cliUtilities::displayUsers(UserRepository &uRep)
     {
         std::cout << std::endl;
         std::cout << "User ID: " << user.getID() << "\n";
-        std::cout << "User Name: " << user.getName() << "\n";
+        std::cout << "User Name: " << user.getFirstName() << " " << user.getLastName() << "\n";
         std::cout << "User Email: " << user.getEmail() << "\n";
         std::cout << "User Department: " << user.getDepartment() << "\n";
     }
 }
+
+int cliUtilities::initiateSaveUsersToFile(UserRepository &uRep, std::string &usersSaveFileName)
+{
+    std::string response;
+
+    std::cout << "Would You Like to Change The Filename [y/n]? \n";
+    std::cout << "Choose Option: ";
+    std::getline(std::cin >> std::ws, response);
+
+    if (response == "y")
+    {
+        std::cout << std::endl;
+        std::cout << "Enter a New Filename: ";
+        std::getline(std::cin >> std::ws, usersSaveFileName);
+    }
+
+    if (uRep.saveUsersToFile(usersSaveFileName) == 0)
+    {
+        std::cout << "Users Saved Successfully" << std::endl;
+        return 0;
+    }
+    else
+    {
+        std::cerr << "Error: Save Users Unsuccessful" << std::endl;
+        return 1;
+    }
+}
+
+int cliUtilities::initiateLoadUserDataFromFile(UserRepository &uRep, std::string &usersSaveFileName)
+{
+    if (uRep.loadUserDataFromFile(usersSaveFileName) == 0)
+    {
+        std::cout << "User Data Loaded Successfully" << std::endl;
+        return 0;
+    }
+    else
+    {
+        std::cerr << "Error: Load Users Unsucceessful" << std::endl;
+        return 1;
+    }
+};

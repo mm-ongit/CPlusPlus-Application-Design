@@ -8,6 +8,7 @@ class cliUtilities
 {
 private:
     bool initializeProgramFlag = true;
+    std::string usersSaveFileName = "users.csv";
 
 public:
     // Methods
@@ -26,6 +27,9 @@ public:
     void createInteractionFromInput(Customer &customer);
     void displayCustomers(CustomerRepository &cRep);
     void displayUsers(UserRepository &uRep);
+
+    int initiateSaveUsersToFile(UserRepository &uRep, std::string &usersSaveFileName);
+    int initiateLoadUserDataFromFile(UserRepository &uRep, std::string &usersSaveFileName);
 
     // Getter
     bool getInitializeProgramFlag()

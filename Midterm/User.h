@@ -36,9 +36,13 @@ public:
     {
         return user_id;
     }
-    std::string getName() const
+    std::string getFirstName() const
     {
-        return first + " " + last;
+        return first;
+    }
+    std::string getLastName() const
+    {
+        return last;
     }
     std::string getEmail() const
     {
