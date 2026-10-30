@@ -46,9 +46,13 @@ public:
     {
         return customer_id;
     }
-    std::string getName() const
+    std::string getFirstName() const
     {
-        return (first + " " + last);
+        return first;
+    }
+    std::string getLastName() const
+    {
+        return last;
     }
     std::string getEmail() const
     {
@@ -62,9 +66,17 @@ public:
     {
         return organization;
     }
-    std::string getLocation() const
+    std::string getCity() const
     {
-        return (address + " " + city + "," + state);
+        return city;
+    }
+    std::string getState() const
+    {
+        return state;
+    }
+    std::string getAddress() const
+    {
+        return address;
     }
     std::string getRepresentative() const
     {

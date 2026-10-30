@@ -33,8 +33,10 @@ public:
 
     // Searchers
     Customer *findCustomerByID(int target);
-
     // Customer* findCustomerByName(std::string target);
-
     // Customer* findCustomerByEmail(std::string target);
+
+    // Functions
+    int saveCustomersToFile(const std::string &customersSaveFileName) const;
+    int loadCustomerDataFromFile(const std::string &customersSaveFileName);
 };

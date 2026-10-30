@@ -9,7 +9,7 @@ void cliUtilities::start()
     CustomerRepository cRep;
     UserRepository uRep;
 
-    if (initiateLoadUserDataFromFile(uRep, usersSaveFileName) == 0)
+    if (initiateLoadUserDataFromFile(uRep, usersSaveFileName) == 0 && initiateLoadCustomerDataFromFile(cRep, customersSaveFileName) == 0)
     {
         displayLogInMenu(cRep, uRep);
     }
@@ -21,7 +21,7 @@ void cliUtilities::start()
         }
         else
         {
-            std::cerr << "Error: Loading Users Unsuccessful" << std::endl;
+            std::cerr << "Error: Loading DaaUnsuccessful" << std::endl;
             std::exit(EXIT_FAILURE);
         }
     }
@@ -182,9 +182,6 @@ int cliUtilities::displayStandardMenu(CustomerRepository &cRep, UserRepository &
 
 int cliUtilities::displayAdminMenu(CustomerRepository &cRep, UserRepository &uRep)
 {
-    /* UserRepository uRep;
-    CustomerRepository cRep;
-    cliUtilities cli; */
     int choice = 0;
 
     while (choice != 10)
@@ -231,6 +228,7 @@ int cliUtilities::displayAdminMenu(CustomerRepository &cRep, UserRepository &uRe
             break;
         case 9:
             initiateSaveUsersToFile(uRep, usersSaveFileName);
+            initiateSaveCustomersToFile(cRep, customersSaveFileName);
             std::cout << "Thanks for using CHARM!" << std::endl;
             return 0;
         default:
@@ -375,11 +373,11 @@ void cliUtilities::findCustomerByID(CustomerRepository &cRep)
     {
         std::cout << std::endl;
         std::cout << "Customer ID: " << customer->getID() << '\n';
-        std::cout << "Name: " << customer->getName() << '\n';
+        std::cout << "Name: " << customer->getFirstName() << " " << customer->getLastName() << '\n';
         std::cout << "Email: " << customer->getEmail() << '\n';
         std::cout << "Phone: " << customer->getPhoneNumber() << '\n';
         std::cout << "Organization: " << customer->getOrganization() << '\n';
-        std::cout << "Location: " << customer->getLocation() << '\n';
+        std::cout << "Location: " << customer->getAddress() << " " << customer->getCity() << ", " << customer->getState() << '\n';
         std::cout << "Representative: " << customer->getRepresentative() << '\n';
         std::cout << "Is Active Customer: " << customer->getIsActive() << "\n";
         std::cout << "Liftime Customer Value: $" << customer->calculateLifetimeCustomerValue() << "\n";
@@ -510,10 +508,10 @@ void cliUtilities::displayCustomers(CustomerRepository &cRep)
     {
         std::cout << std::endl;
         std::cout << "Customer ID: " << customer.getID() << "\n";
-        std::cout << "Customer Name: " << customer.getName() << "\n";
+        std::cout << "Customer Name: " << customer.getFirstName() << " " << customer.getLastName() << "\n";
         std::cout << "Customer Organization: " << customer.getOrganization() << "\n";
         std::cout << "Customer Email: " << customer.getEmail() << "\n";
-        std::cout << "Customer Location: " << customer.getLocation() << "\n";
+        std::cout << "Customer Location: " << customer.getAddress() << " " << customer.getCity() << ", " << customer.getState() << "\n";
         std::cout << "Customer Representative: " << customer.getRepresentative() << "\n";
         std::cout << "Is Active Customer: " << customer.getIsActive() << "\n";
         std::cout << "Liftime Customer Value: $" << customer.calculateLifetimeCustomerValue() << "\n";
@@ -571,4 +569,45 @@ int cliUtilities::initiateLoadUserDataFromFile(UserRepository &uRep, std::string
         std::cerr << "Error: Load Users Unsucceessful" << std::endl;
         return 1;
     }
-};
+}
+
+int cliUtilities::initiateSaveCustomersToFile(CustomerRepository &cRep, std::string &customersSaveFileName)
+{
+    std::string response;
+
+    std::cout << "Would You Like to Change The Filename [y/n]? \n";
+    std::cout << "Choose Option: ";
+    std::getline(std::cin >> std::ws, response);
+
+    if (response == "y")
+    {
+        std::cout << std::endl;
+        std::cout << "Enter a New Filename: ";
+        std::getline(std::cin >> std::ws, usersSaveFileName);
+    }
+
+    if (cRep.saveCustomersToFile(customersSaveFileName) == 0)
+    {
+        std::cout << "Customer Data Saved Successfully" << std::endl;
+        return 0;
+    }
+    else
+    {
+        std::cerr << "Error: Save Customers Unsuccessful" << std::endl;
+        return 1;
+    }
+}
+
+int cliUtilities::initiateLoadCustomerDataFromFile(CustomerRepository &cRep, std::string &customersSaveFileName)
+{
+    if (cRep.loadCustomerDataFromFile(customersSaveFileName) == 0)
+    {
+        std::cout << "Customer Data Loaded Successfully" << std::endl;
+        return 0;
+    }
+    else
+    {
+        std::cerr << "Error: Load Customers Unsucceessful" << std::endl;
+        return 1;
+    }
+}

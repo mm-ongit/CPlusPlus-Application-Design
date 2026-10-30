@@ -29,7 +29,6 @@ public:
     // Searchers
     User *findUserByID(int target);
     User *findUserByEmail(std::string &email);
-
     // User *findUserByName(std::string target)
 
     // Functions
