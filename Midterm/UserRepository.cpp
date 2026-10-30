@@ -128,7 +128,6 @@ int UserRepository::loadUserDataFromFile(const std::string &usersSaveFileName)
     // Check if file opened successfully - error if not
     if (!file.is_open())
     {
-        std::cerr << "Error: Load User Data Unsuccessful" << std::endl;
         return 1;
     }
 

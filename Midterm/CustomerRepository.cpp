@@ -136,7 +136,6 @@ int CustomerRepository::loadCustomerDataFromFile(const std::string &customersSav
     // Check if file opened successfully - error if not
     if (!file.is_open())
     {
-        std::cerr << "Error: Load Customer Data Unsuccessful" << std::endl;
         return 1;
     }
 
