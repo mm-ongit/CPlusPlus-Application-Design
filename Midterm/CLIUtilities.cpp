@@ -566,7 +566,7 @@ int cliUtilities::initiateLoadUserDataFromFile(UserRepository &uRep, std::string
     }
     else
     {
-        std::cerr << "Error: Load Users Unsucceessful" << std::endl;
+        std::cerr << "Error: Load Users Unsuccessful" << std::endl;
         return 1;
     }
 }
