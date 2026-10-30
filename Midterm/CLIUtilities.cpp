@@ -9,7 +9,7 @@ void cliUtilities::start()
     CustomerRepository cRep;
     UserRepository uRep;
 
-    if (initiateLoadUserDataFromFile(uRep, usersSaveFileName) == 0 && initiateLoadCustomerDataFromFile(cRep, customersSaveFileName) == 0)
+    if (initiateLoadUserDataFromFile(uRep, usersSaveFileName) == 0 && initiateLoadCustomerDataFromFile(cRep, customersSaveFileName) == 0 && getInitializeProgramFlag())
     {
         displayLogInMenu(cRep, uRep);
     }
@@ -21,7 +21,7 @@ void cliUtilities::start()
         }
         else
         {
-            std::cerr << "Error: Loading DaaUnsuccessful" << std::endl;
+            std::cerr << "Error: Loading Data Unsuccessful" << std::endl;
             std::exit(EXIT_FAILURE);
         }
     }
