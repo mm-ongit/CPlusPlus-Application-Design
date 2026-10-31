@@ -125,6 +125,7 @@ public:
     {
         is_active = true;
     }
+
     double calculateLifetimeCustomerValue() const;
 
     void addTransaction(const Transaction &transaction);

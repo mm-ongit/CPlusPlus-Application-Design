@@ -85,7 +85,6 @@ int UserRepository::saveUsersToFile(const std::string &usersSaveFileName) const
     // check if file is open successfully
     if (!file.is_open())
     {
-        std::cerr << "Could Not Open or Create Users Save File" << std::endl;
         return 1;
     }
 

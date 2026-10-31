@@ -583,7 +583,7 @@ int cliUtilities::initiateSaveCustomersToFile(CustomerRepository &cRep, std::str
     {
         std::cout << std::endl;
         std::cout << "Enter a New Filename: ";
-        std::getline(std::cin >> std::ws, usersSaveFileName);
+        std::getline(std::cin >> std::ws, customersSaveFileName);
     }
 
     if (cRep.saveCustomersToFile(customersSaveFileName) == 0)
