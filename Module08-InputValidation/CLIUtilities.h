@@ -3,6 +3,7 @@
 #include <iostream>
 #include "CustomerRepository.h"
 #include "UserRepository.h"
+#include "ValidationUtilities.h"
 
 class cliUtilities
 {
@@ -14,24 +15,29 @@ private:
 public:
     // Methods
     void start();
-    void displayInitializationMenu(CustomerRepository &cRep, UserRepository &uRep);
-    int displayLogInMenu(CustomerRepository &cRep, UserRepository &uRep);
-    int displayStandardMenu(CustomerRepository &cRep, UserRepository &uRep);
-    int displayAdminMenu(CustomerRepository &cRep, UserRepository &uRep);
-    void createCustomerFromInput(CustomerRepository &cRep);
-    void createUserFromInput(UserRepository &uRep);
-    void findCustomerByID(CustomerRepository &cRep);
-    void findUserByID(UserRepository &uRep);
-    void initiateTransactionFromInput(CustomerRepository &cRep);
-    void createTransactionFromInput(Customer &customer);
-    void initiateInteractionFromInput(CustomerRepository &cRep);
-    void createInteractionFromInput(Customer &customer);
-    void displayCustomers(CustomerRepository &cRep);
-    void displayUsers(UserRepository &uRep);
+    void displayInitializationMenu(CustomerRepository &cRep, UserRepository &uRep, ValidationUtilities &vU); // tested - done
+    int displayLogInMenu(CustomerRepository &cRep, UserRepository &uRep, ValidationUtilities &vU);           // tested - 1 issue - entering 12 passes check to proceed with log in, why?
 
-    int initiateSaveUsersToFile(UserRepository &uRep, std::string &usersSaveFileName);
+    int displayStandardMenu(CustomerRepository &cRep, UserRepository &uRep, ValidationUtilities &vU); // checked
+    int displayAdminMenu(CustomerRepository &cRep, UserRepository &uRep, ValidationUtilities &vU);    // checked
+
+    void createCustomerFromInput(CustomerRepository &cRep, ValidationUtilities &vU); // teested
+    void createUserFromInput(UserRepository &uRep, ValidationUtilities &vU);         // tested
+
+    void findCustomerByID(CustomerRepository &cRep); // checked
+    void findUserByID(UserRepository &uRep);         // checked
+
+    void initiateTransactionFromInput(CustomerRepository &cRep, ValidationUtilities &vU); // tested
+    void createTransactionFromInput(Customer &customer, ValidationUtilities &vU);         // tested
+    void initiateInteractionFromInput(CustomerRepository &cRep, ValidationUtilities &vU); // tested
+    void createInteractionFromInput(Customer &customer, ValidationUtilities &vU);         // tested
+
+    void displayCustomers(CustomerRepository &cRep); // checked
+    void displayUsers(UserRepository &uRep);         // checked
+
+    int initiateSaveUsersToFile(UserRepository &uRep, std::string &usersSaveFileName, ValidationUtilities &vU); // tested
     int initiateLoadUserDataFromFile(UserRepository &uRep, std::string &usersSaveFileName);
-    int initiateSaveCustomersToFile(CustomerRepository &cRep, std::string &customersSaveFileName);
+    int initiateSaveCustomersToFile(CustomerRepository &cRep, std::string &customersSaveFileName, ValidationUtilities &vU); // testing - 1 issue - .csv passes validFileNName check, why?
     int initiateLoadCustomerDataFromFile(CustomerRepository &cRep, std::string &customersSaveFileName);
 
     // Getter

@@ -8,16 +8,17 @@ void cliUtilities::start()
 {
     CustomerRepository cRep;
     UserRepository uRep;
+    ValidationUtilities vU;
 
     if (initiateLoadUserDataFromFile(uRep, usersSaveFileName) == 0 && initiateLoadCustomerDataFromFile(cRep, customersSaveFileName) == 0 && getInitializeProgramFlag())
     {
-        displayLogInMenu(cRep, uRep);
+        displayLogInMenu(cRep, uRep, vU);
     }
     else
     {
         if (getInitializeProgramFlag())
         {
-            displayInitializationMenu(cRep, uRep);
+            displayInitializationMenu(cRep, uRep, vU);
         }
         else
         {
@@ -27,7 +28,7 @@ void cliUtilities::start()
     }
 }
 
-void cliUtilities::displayInitializationMenu(CustomerRepository &cRep, UserRepository &uRep)
+void cliUtilities::displayInitializationMenu(CustomerRepository &cRep, UserRepository &uRep, ValidationUtilities &vU)
 {
     int choice;
 
@@ -36,13 +37,20 @@ void cliUtilities::displayInitializationMenu(CustomerRepository &cRep, UserRepos
     std::cout << "Enter 1 To Create An Admin User" << std::endl;
     std::cout << "Enter Any Other Number To Exit" << std::endl;
     std::cout << "Choose An Option: ";
-    std::cin >> choice;
+
+    while (!(std::cin >> choice))
+    {
+        std::cout << "Input invalid. Please enter a number 0 - 9: ";
+        std::cin.clear();
+        std::cin.ignore();
+    }
+
     std::cin.ignore();
 
     switch (choice)
     {
     case 1:
-        createUserFromInput(uRep);
+        createUserFromInput(uRep, vU);
         break;
     default:
         std::cout << "Thanks for using CHARM!" << std::endl;
@@ -54,13 +62,18 @@ void cliUtilities::displayInitializationMenu(CustomerRepository &cRep, UserRepos
     std::cout << "Enter 1 To Create A Standard User" << std::endl;
     std::cout << "Enter Any Other Number To Exit" << std::endl;
     std::cout << "Choose An Option: ";
-    std::cin >> choice;
+
+    while (!(std::cin >> choice))
+    {
+        std::cout << "Input invalid. Please enter a number 0 - 9: ";
+    }
+
     std::cin.ignore();
 
     switch (choice)
     {
     case 1:
-        createUserFromInput(uRep);
+        createUserFromInput(uRep, vU);
         break;
     default:
         std::cout << "Thanks for using CHARM!" << std::endl;
@@ -68,13 +81,13 @@ void cliUtilities::displayInitializationMenu(CustomerRepository &cRep, UserRepos
     }
 
     updateInitializeProgramFlag();
-    displayLogInMenu(cRep, uRep);
+    displayLogInMenu(cRep, uRep, vU);
 }
 
 // Note: passwordHash is saved as plaintext password while construction is ongoing, will change to real hash later
-int cliUtilities::displayLogInMenu(CustomerRepository &cRep, UserRepository &uRep)
+int cliUtilities::displayLogInMenu(CustomerRepository &cRep, UserRepository &uRep, ValidationUtilities &vU)
 {
-    std::string log_in_flag;
+    char log_in_flag;
     std::string email;
     std::string password;
 
@@ -84,17 +97,30 @@ int cliUtilities::displayLogInMenu(CustomerRepository &cRep, UserRepository &uRe
         std::cout << "Enter 1 To Log In " << std::endl;
         std::cout << "Enter 2 To Exit " << std::endl;
         std::cout << "Choose Option: ";
-        std::cin >> log_in_flag;
-        std::cin.ignore();
 
-        if (log_in_flag != "1" && log_in_flag != "2")
+        while (!(std::cin >> log_in_flag))
         {
-            std::cout << std::endl;
-            std::cout << "Please Enter 1 Or 2" << std::endl;
-            displayLogInMenu(cRep, uRep);
+            std::cout << "Input invalid. Please enter 1 or 2: ";
+            std::cin.clear();
         }
 
-        if (log_in_flag == "2")
+        if (!(std::isdigit(static_cast<unsigned char>(log_in_flag))))
+        {
+            std::cout << "Input invalid. Please enter 1 or 2: ";
+            std::cin.clear();
+            std::cin >> log_in_flag;
+        }
+
+        std::cin.ignore();
+
+        if (log_in_flag != '1' && log_in_flag != '2')
+        {
+            std::cout << std::endl;
+            std::cout << "Input invalid. Please enter 1 or 2: " << std::endl;
+            displayLogInMenu(cRep, uRep, vU);
+        }
+
+        if (log_in_flag == '2')
         {
             std::cout << "Thanks for using CHARM!" << std::endl;
             break;
@@ -103,11 +129,25 @@ int cliUtilities::displayLogInMenu(CustomerRepository &cRep, UserRepository &uRe
         std::cout << "\n ;) CHARM CRM - Login (2/3) <3" << std::endl;
         std::cout << "Enter Email: ";
         std::cin >> email;
+
+        while (!(vU.validEmail(email)))
+        {
+            std::cout << "Input invalid. Please enter email: ";
+            std::cin >> email;
+        }
+
         std::cin.ignore();
 
         std::cout << "\n ;) CHARM CRM - Login (3/3) <3" << std::endl;
         std::cout << "Enter Password: ";
         std::cin >> password;
+
+        while (!(vU.validPassword(password)))
+        {
+            std::cout << "Input invalid. Please enter password: ";
+            std::cin >> email;
+        }
+
         std::cin.ignore();
 
         User *user = uRep.findUserByEmail(email);
@@ -123,23 +163,23 @@ int cliUtilities::displayLogInMenu(CustomerRepository &cRep, UserRepository &uRe
         {
             if (user->getAdminStatus() == UserRole::Admin)
             {
-                displayAdminMenu(cRep, uRep);
+                displayAdminMenu(cRep, uRep, vU);
             }
             else
             {
-                displayStandardMenu(cRep, uRep);
+                displayStandardMenu(cRep, uRep, vU);
             }
         }
         else
         {
-            std::cout << "Password Does Not Match Record";
+            std::cout << "No Record Found";
         }
     }
 
     return 0;
 }
 
-int cliUtilities::displayStandardMenu(CustomerRepository &cRep, UserRepository &uRep)
+int cliUtilities::displayStandardMenu(CustomerRepository &cRep, UserRepository &uRep, ValidationUtilities &vU)
 {
     int choice = 0;
 
@@ -152,7 +192,13 @@ int cliUtilities::displayStandardMenu(CustomerRepository &cRep, UserRepository &
         std::cout << "4. Find User By ID" << std::endl;
         std::cout << "5. Log Out" << std::endl;
         std::cout << "Choose an option: ";
-        std::cin >> choice;
+
+        while (!(std::cin >> choice))
+        {
+            std::cout << "Input invalid. Please enter a number 1 - 5: ";
+            std::cin.clear();
+        }
+
         std::cin.ignore();
 
         switch (choice)
@@ -173,14 +219,14 @@ int cliUtilities::displayStandardMenu(CustomerRepository &cRep, UserRepository &
             std::cout << "Thanks for using CHARM!" << std::endl;
             return 0;
         default:
-            std::cout << "Invalid choice. Please select option 1 - 6." << std::endl;
+            std::cout << "Input invalid. Please select option 1 - 5." << std::endl;
         }
     }
 
     return 0;
 }
 
-int cliUtilities::displayAdminMenu(CustomerRepository &cRep, UserRepository &uRep)
+int cliUtilities::displayAdminMenu(CustomerRepository &cRep, UserRepository &uRep, ValidationUtilities &vU)
 {
     int choice = 0;
 
@@ -197,16 +243,21 @@ int cliUtilities::displayAdminMenu(CustomerRepository &cRep, UserRepository &uRe
         std::cout << "8. Create New Interaction" << std::endl;
         std::cout << "9. Save And Log Out" << std::endl;
         std::cout << "Choose an option: ";
-        std::cin >> choice;
+
+        while (!(std::cin >> choice))
+        {
+            std::cout << "Input invalid. Please enter a number 1 - 9: ";
+        }
+
         std::cin.ignore();
 
         switch (choice)
         {
         case 1:
-            createCustomerFromInput(cRep);
+            createCustomerFromInput(cRep, vU);
             break;
         case 2:
-            createUserFromInput(uRep);
+            createUserFromInput(uRep, vU);
             break;
         case 3:
             displayCustomers(cRep);
@@ -221,25 +272,25 @@ int cliUtilities::displayAdminMenu(CustomerRepository &cRep, UserRepository &uRe
             findUserByID(uRep);
             break;
         case 7:
-            initiateTransactionFromInput(cRep);
+            initiateTransactionFromInput(cRep, vU);
             break;
         case 8:
-            initiateInteractionFromInput(cRep);
+            initiateInteractionFromInput(cRep, vU);
             break;
         case 9:
-            initiateSaveUsersToFile(uRep, usersSaveFileName);
-            initiateSaveCustomersToFile(cRep, customersSaveFileName);
+            initiateSaveUsersToFile(uRep, usersSaveFileName, vU);
+            initiateSaveCustomersToFile(cRep, customersSaveFileName, vU);
             std::cout << "Thanks for using CHARM!" << std::endl;
             return 0;
         default:
-            std::cout << "Invalid choice. Please select option 1 - 10." << std::endl;
+            std::cout << "Input invalid. Please select option 1 - 9." << std::endl;
         }
     }
 
     return 0;
 }
 
-void cliUtilities::createCustomerFromInput(CustomerRepository &cRep)
+void cliUtilities::createCustomerFromInput(CustomerRepository &cRep, ValidationUtilities &vU)
 {
     int initCustomerID;
     std::string initFirstName;
@@ -253,32 +304,86 @@ void cliUtilities::createCustomerFromInput(CustomerRepository &cRep)
     std::string initRepresentative;
     bool initIsActive = true;
 
-    std::cout << "First name: ";
+    std::cout << "First name: " << std::flush;
     std::getline(std::cin, initFirstName);
+
+    while (!(vU.validName(initFirstName)))
+    {
+        std::cout << "Input invalid. Please enter first name: ";
+        std::getline(std::cin, initFirstName);
+    }
 
     std::cout << "Last name: ";
     std::getline(std::cin, initLastName);
 
+    while (!(vU.validName(initLastName)))
+    {
+        std::cout << "Input invalid. Please enter last name: ";
+        std::getline(std::cin, initLastName);
+    }
+
     std::cout << "Organization: ";
     std::getline(std::cin, initOrganization);
+
+    while (!(vU.validName(initOrganization)))
+    {
+        std::cout << "Input invalid. Please enter organization name: ";
+        std::getline(std::cin, initOrganization);
+    }
 
     std::cout << "Email: ";
     std::getline(std::cin, initEmail);
 
+    while (!(vU.validEmail(initEmail)))
+    {
+        std::cout << "Input invalid. Please enter email: ";
+        std::getline(std::cin, initEmail);
+    }
+
     std::cout << "Phone number: ";
     std::getline(std::cin, initPhoneNumber);
+
+    while (!(vU.validPhoneNumber(initPhoneNumber)))
+    {
+        std::cout << "Input invalid. Please enter phone number: ";
+        std::getline(std::cin, initPhoneNumber);
+    }
 
     std::cout << "City: ";
     std::getline(std::cin, initCity);
 
+    while (!(vU.validCity(initCity)))
+    {
+        std::cout << "Input invalid. Please enter city: ";
+        std::getline(std::cin, initCity);
+    }
+
     std::cout << "State: ";
     std::getline(std::cin, initState);
+
+    while (!(vU.validState(initState)))
+    {
+        std::cout << "Input invalid. Please enter state abbreviation: ";
+        std::getline(std::cin, initPhoneNumber);
+    }
 
     std::cout << "Address: ";
     std::getline(std::cin, initAddress);
 
+    while (!(vU.validAddress(initAddress)))
+    {
+        std::cout << "Input invalid. Please enter address: ";
+        std::getline(std::cin, initAddress);
+    }
+
     std::cout << "Representative: ";
     std::getline(std::cin, initRepresentative);
+
+    while (!(vU.validEmail(initRepresentative)))
+    {
+        std::cout << "Input invalid. Please enter representative email address: ";
+        std::getline(std::cin, initPhoneNumber);
+    }
 
     cRep.addCustomer(
         initCustomerID,
@@ -295,7 +400,7 @@ void cliUtilities::createCustomerFromInput(CustomerRepository &cRep)
 };
 
 // Note: passwordHash is saved as plaintext password while construction is ongoing, will change to real hash later
-void cliUtilities::createUserFromInput(UserRepository &uRep)
+void cliUtilities::createUserFromInput(UserRepository &uRep, ValidationUtilities &vU)
 {
     std::string initFirst;
     std::string initLast;
@@ -306,14 +411,32 @@ void cliUtilities::createUserFromInput(UserRepository &uRep)
     std::string initPassword = "";
     std::string initAccessLevel = "";
 
-    std::cout << "First name: ";
+    std::cout << "First name: " << std::flush;
     std::getline(std::cin, initFirst);
+
+    while (!(vU.validName(initFirst)))
+    {
+        std::cout << "Input invalid. Please enter first name: " << std::flush;
+        std::getline(std::cin, initFirst);
+    }
 
     std::cout << "Last name: ";
     std::getline(std::cin, initLast);
 
+    while (!(vU.validName(initLast)))
+    {
+        std::cout << "Input invalid. Please enter last name: ";
+        std::getline(std::cin, initLast);
+    }
+
     std::cout << "Email: ";
     std::getline(std::cin, initEmail);
+
+    while (!(vU.validEmail(initEmail)))
+    {
+        std::cout << "Input invalid. Please enter email address: ";
+        std::getline(std::cin, initEmail);
+    }
 
     // Loop to validate Password
     while (initPassword == "")
@@ -321,14 +444,26 @@ void cliUtilities::createUserFromInput(UserRepository &uRep)
         std::cout << "Password: ";
         std::getline(std::cin, initPassword);
 
+        while (!(vU.validPassword(initPassword)))
+        {
+            std::cout << "Input invalid. Please enter password: ";
+            std::getline(std::cin, initPassword);
+        }
+
         // Add password hasher here
         initPasswordHash = initPassword; // change initPassword to password_hasher(initPassword)
 
         break;
     }
 
-    std::cout << "Depatment: ";
+    std::cout << "Department: ";
     std::getline(std::cin, initDepartment);
+
+    while (!(vU.validName(initDepartment)))
+    {
+        std::cout << "Input invalid. Please enter department name: ";
+        std::getline(std::cin, initDepartment);
+    }
 
     // Loop to validate Access Level
     while (initAccessLevel != "Standard" && initAccessLevel != "Admin")
@@ -364,8 +499,16 @@ void cliUtilities::findCustomerByID(CustomerRepository &cRep)
 {
     int target;
 
+    std::cout << "\n";
     std::cout << "Enter Customer ID: ";
-    std::cin >> target;
+    while (!(std::cin >> target))
+    {
+        std::cout << "Input invalid. Please enter a number: ";
+        std::cin.clear();
+        std::cin.ignore();
+    }
+
+    std::cin.ignore();
 
     Customer *customer = cRep.findCustomerByID(target);
 
@@ -395,7 +538,14 @@ void cliUtilities::findUserByID(UserRepository &uRep)
     int target;
 
     std::cout << "Enter User ID: ";
-    std::cin >> target;
+    while (!(std::cin >> target))
+    {
+        std::cout << "Input invalid. Please enter a number: ";
+        std::cin.clear();
+        std::cin.ignore();
+    }
+
+    std::cin.ignore();
 
     User *user = uRep.findUserByID(target);
 
@@ -416,12 +566,18 @@ void cliUtilities::findUserByID(UserRepository &uRep)
 }
 
 // Gets relevant Customer object needed to run void cliUtilities::createTransactionFromInput(Customer &customer)
-void cliUtilities::initiateTransactionFromInput(CustomerRepository &cRep)
+void cliUtilities::initiateTransactionFromInput(CustomerRepository &cRep, ValidationUtilities &vU)
 {
     int target;
 
-    std::cout << "Enter customer ID: ";
-    std::cin >> target;
+    std::cout << "Enter Customer ID: ";
+    while (!(std::cin >> target))
+    {
+        std::cout << "Input invalid. Please enter a customer ID number: ";
+        std::cin.clear();
+    }
+
+    std::cin.ignore();
 
     Customer *customer = cRep.findCustomerByID(target);
 
@@ -431,23 +587,40 @@ void cliUtilities::initiateTransactionFromInput(CustomerRepository &cRep)
         return;
     }
 
-    createTransactionFromInput(*customer);
+    createTransactionFromInput(*customer, vU);
 }
 
-void cliUtilities::createTransactionFromInput(Customer &customer)
+void cliUtilities::createTransactionFromInput(Customer &customer, ValidationUtilities &vU)
 {
     std::string initType;
     std::string initDate;
     double initAmount;
 
-    std::cout << "Enter transaction type: ";
+    std::cout << "Enter transaction type: " << std::flush;
     std::getline(std::cin >> std::ws, initType);
+
+    while (!(vU.validName(initType)))
+    {
+        std::cout << "Input invalid. Please enter transaction type: ";
+        std::getline(std::cin, initType);
+    }
 
     std::cout << "Enter transaction date: ";
     std::getline(std::cin >> std::ws, initDate);
 
+    while (!(vU.validDate(initDate)))
+    {
+        std::cout << "Input invalid. Please enter transaction date: ";
+        std::getline(std::cin, initDate);
+    }
+
     std::cout << "Enter transaction amount: $";
-    std::cin >> initAmount;
+    while (!(std::cin >> initAmount))
+    {
+        std::cout << "Invalid input. Please enter transaction amount: ";
+        std::cin.clear();
+        std::cin.ignore();
+    }
 
     Transaction newTransaction(
         initType,
@@ -459,12 +632,18 @@ void cliUtilities::createTransactionFromInput(Customer &customer)
     return;
 }
 // Gets relevant Customer object needed to run void cliUtilities::createInteractionFromInput(Customer &customer)
-void cliUtilities::initiateInteractionFromInput(CustomerRepository &cRep)
+void cliUtilities::initiateInteractionFromInput(CustomerRepository &cRep, ValidationUtilities &vU)
 {
     int target;
 
-    std::cout << "Enter customer ID: ";
-    std::cin >> target;
+    std::cout << "Enter Customer ID: ";
+    while (!(std::cin >> target))
+    {
+        std::cout << "Input invalid. Please enter a customer ID number: ";
+        std::cin.clear();
+    }
+
+    std::cin.ignore();
 
     Customer *customer = cRep.findCustomerByID(target);
 
@@ -474,21 +653,34 @@ void cliUtilities::initiateInteractionFromInput(CustomerRepository &cRep)
         return;
     }
 
-    createInteractionFromInput(*customer);
+    createInteractionFromInput(*customer, vU);
 }
 
-void cliUtilities::createInteractionFromInput(Customer &customer)
+void cliUtilities::createInteractionFromInput(Customer &customer, ValidationUtilities &vU)
 {
     std::string initType;
     std::string initDate;
     std::string initNotes;
 
-    std::cout << "Enter interaction type: ";
+    std::cout << "Enter interaction type: " << std::flush;
     std::getline(std::cin >> std::ws, initType);
+
+    while (!(vU.validName(initType)))
+    {
+        std::cout << "Input invalid. Please enter interaction type: ";
+        std::getline(std::cin, initType);
+    }
 
     std::cout << "Enter interaction date: ";
     std::getline(std::cin >> std::ws, initDate);
 
+    while (!(vU.validDate(initDate)))
+    {
+        std::cout << "Input invalid. Please enter interaction date: ";
+        std::getline(std::cin, initDate);
+    }
+
+    // Can be anything - how do I harden this?
     std::cout << "Enter interaction notes: ";
     std::getline(std::cin >> std::ws, initNotes);
 
@@ -530,19 +722,34 @@ void cliUtilities::displayUsers(UserRepository &uRep)
     }
 }
 
-int cliUtilities::initiateSaveUsersToFile(UserRepository &uRep, std::string &usersSaveFileName)
+int cliUtilities::initiateSaveUsersToFile(UserRepository &uRep, std::string &usersSaveFileName, ValidationUtilities &vU)
 {
-    std::string response;
+    char response;
 
-    std::cout << "Would You Like to Change The Filename [y/n]? \n";
+    std::cout << "Current User Data Filename: " << usersSaveFileName << "\n";
+    std::cout << "Would you like to change the filename for user data? [y/n] \n";
     std::cout << "Choose Option: ";
-    std::getline(std::cin >> std::ws, response);
+    std::cin >> response;
 
-    if (response == "y")
+    while (response != 'y' && response != 'n')
+    {
+        std::cout << "Input invalid. Please enter y or n: ";
+        std::cin >> response;
+    }
+
+    std::cin.ignore();
+
+    if (response == 'y')
     {
         std::cout << std::endl;
         std::cout << "Enter a New Filename: ";
         std::getline(std::cin >> std::ws, usersSaveFileName);
+
+        while (!(vU.validFileName(usersSaveFileName)))
+        {
+            std::cout << "Input invalid. Please enter a filename. Include .csv: ";
+            std::getline(std::cin >> std::ws, usersSaveFileName);
+        }
     }
 
     if (uRep.saveUsersToFile(usersSaveFileName) == 0)
@@ -571,19 +778,34 @@ int cliUtilities::initiateLoadUserDataFromFile(UserRepository &uRep, std::string
     }
 }
 
-int cliUtilities::initiateSaveCustomersToFile(CustomerRepository &cRep, std::string &customersSaveFileName)
+int cliUtilities::initiateSaveCustomersToFile(CustomerRepository &cRep, std::string &customersSaveFileName, ValidationUtilities &vU)
 {
-    std::string response;
+    char response;
 
-    std::cout << "Would You Like to Change The Filename [y/n]? \n";
+    std::cout << "Current Customer Data Filename: " << customersSaveFileName << "\n";
+    std::cout << "Would you like to change the filename for customer data? [y/n] \n";
     std::cout << "Choose Option: ";
-    std::getline(std::cin >> std::ws, response);
+    std::cin >> response;
 
-    if (response == "y")
+    while (response != 'y' && response != 'n')
+    {
+        std::cout << "Input invalid. Please enter y or n: ";
+        std::cin >> response;
+    }
+
+    std::cin.ignore();
+
+    if (response == 'y')
     {
         std::cout << std::endl;
         std::cout << "Enter a New Filename: ";
         std::getline(std::cin >> std::ws, customersSaveFileName);
+
+        while (!(vU.validFileName(usersSaveFileName)))
+        {
+            std::cout << "Input invalid. Please enter a filename. Include .csv: ";
+            std::getline(std::cin >> std::ws, customersSaveFileName);
+        }
     }
 
     if (cRep.saveCustomersToFile(customersSaveFileName) == 0)
