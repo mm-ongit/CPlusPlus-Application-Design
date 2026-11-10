@@ -9,49 +9,49 @@ Week 8 Assignment:
 To keep the responsibilities of ingesting user input and validating user input separate I have created an additional class, ValidationUtilities.h/cpp. The CLI Utilities class calls methods from the ValidationUtilities class to ensure proper user input.
 
 User input is required for the following information: 
-- Numbers
-Menu navigation - int
-Customer ID Search - int
-User ID Search - int
-Transaction Amount - double
+Numbers
+- Menu navigation - int
+- Customer ID Search - int
+- User ID Search - int
+- Transaction Amount - double
 
-- Strings
-User First Name - string - name
-User Last Name - string - name
-User Email - string - email
-User Password - string - password
-User Department - string - name
-User Access Level - string
+Strings
+- User First Name - string - name
+- User Last Name - string - name
+- User Email - string - email
+- User Password - string - password
+- User Department - string - name
+- User Access Level - string
 
-Customer First Name - string - name
-Customer Last Name - string - name
-Customer Email - string - email
-Customer Phone Number - string - phone number
-Customer Organization - string - name
-Customer Address - string - address
-Customer City - string - city
-Customer State - string - state
-Customer Representative - string - email
+- Customer First Name - string - name
+- Customer Last Name - string - name
+- Customer Email - string - email
+- Customer Phone Number - string - phone number
+- Customer Organization - string - name
+- Customer Address - string - address
+- Customer City - string - city
+- Customer State - string - state
+- Customer Representative - string - email
 
-Transaction Type - string - name (for now)
-Transaction Date - string - date
-Interaction Type - string - name (for now)
-Interaction Date - string - date
-Interaction Notes - string
+- Transaction Type - string - name (for now)
+- Transaction Date - string - date
+- Interaction Type - string - name (for now)
+- Interaction Date - string - date
+- Interaction Notes - string
 
-User Data Filename - string - filename
-Customer Data Filename - string - filename
+- User Data Filename - string - filename
+- Customer Data Filename - string - filename
 
-- Chars
-Rename Save File Response - char
+Chars
+- Rename Save File Response - char
 
 
 As seen above, I identified the need to write custom functions to validate names (first, last, department, organization), emails, passwords, addresses, cities, states (abbreviations), dates, phone numbers, and filenames. 
 Ints and doubles are verified with a simple while loop that checks whether input can be inserted into a predefined int or double variable; if the insertion fails (due to a type mismatch) the failure flag is cleared and the buffer is emptied before the user is prompted for input again. (This prevents cin from ingesting a leftover \n and causing an infinite loop. Ask me how I know...)
 
 For the most part, my validation works as intended, however there are two bugs I have yet to fix.
-Bug 1: The log in menu asks users to enter 1 to log in and 2 to exit. Right now if a user enters 12 the program allows them to proceed to log in, but this should not be allowed
-Bug 2: The program asks if users would like to rename the user data and customer data save files before saving and exiting. I wrote a regex to catch any user input that is not a valid .csv file name. The check works when changing the user data filename, but the exact same check fails when a user renames the customer data filename.
+- Bug 1: The log in menu asks users to enter 1 to log in and 2 to exit. Right now if a user enters 12 the program allows them to proceed to log in, but this should not be allowed
+- Bug 2: The program asks if users would like to rename the user data and customer data save files before saving and exiting. I wrote a regex to catch any user input that is not a valid .csv file name. The check works when changing the user data filename, but the exact same check fails when a user renames the customer data filename.
 
 -------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------
@@ -67,12 +67,12 @@ For example, let's say you have a new customer named Ken Lithgoe. There are a fe
 
 Here's how it might work:
 
-START
-User asks question about contact -> 
-Charm prepares JSON of contact data -> 
-Charm sends data and user request to LLM -> 
-LLM recceives request and parses contact data -> 
-LLM generates output -> 
-Charm receives LLM response -> 
-Charm displays LLM response for user
-END
+- START
+- User asks question about contact -> 
+- Charm prepares JSON of contact data -> 
+- Charm sends data and user request to LLM -> 
+- LLM recceives request and parses contact data -> 
+- LLM generates output -> 
+- Charm receives LLM response -> 
+- Charm displays LLM response for user
+- END
